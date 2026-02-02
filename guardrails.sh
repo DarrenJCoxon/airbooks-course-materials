@@ -16,7 +16,9 @@ fi
 CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 
 # --- Force push protection ---
-if echo "$CMD" | grep -qE 'git\s+push\s+.*(-f|--force)'; then
+# Match -f or --force only as standalone flags (not inside branch names like "vuln-fixes")
+# \s-f(\s|$) ensures -f is a flag, not part of a word; --force(\s|$) excludes --force-with-lease
+if echo "$CMD" | grep -qE 'git\s+push\b.*\s-f(\s|$)' || echo "$CMD" | grep -qE 'git\s+push\b.*\s--force(\s|$)'; then
   echo '{"decision":"block","reason":"GUARDRAIL: git push --force is blocked. Use --force-with-lease instead, or ask the user to confirm."}' >&2
   exit 2
 fi
