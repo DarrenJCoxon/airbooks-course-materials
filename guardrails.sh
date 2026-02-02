@@ -69,6 +69,14 @@ if echo "$CMD" | grep -qE '(npm|pnpm|yarn)\s+publish'; then
   exit 2
 fi
 
+# --- ORM schema push protection (causes schema drift) ---
+# Prisma: must use prisma migrate dev (not db push)
+# Drizzle: must use drizzle-kit generate + drizzle-kit migrate (not drizzle-kit push)
+if echo "$CMD" | grep -qE '(prisma\s+db\s+push|drizzle-kit\s+push|db:push)'; then
+  echo '{"decision":"block","reason":"GUARDRAIL: Direct schema push is blocked (causes database drift with no migration history). Use proper migrations instead: Prisma: `pnpm db:migrate` (prisma migrate dev) | Drizzle: `drizzle-kit generate` then `drizzle-kit migrate`."}' >&2
+  exit 2
+fi
+
 # --- Drop database ---
 if echo "$CMD" | grep -qiE '(drop\s+database|drop\s+schema|truncate)'; then
   echo '{"decision":"block","reason":"GUARDRAIL: destructive database commands (DROP/TRUNCATE) are blocked."}' >&2
