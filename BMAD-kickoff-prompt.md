@@ -15,7 +15,7 @@ We are building a "Stateless Revision Engine" that turns static texts (like *An 
 3.  **Context Injection:** The proxy must verify requests and inject the invisible "Mark Scheme" from the server-side Content Pack so the AI grades correctly without student prompting.
 
 **The Stack:**
-- **Framework:** Next.js 14 (App Router)
+- **Framework:** Next.js 16.x (App Router)
 - **Deployment:** Vercel (Serverless Functions)
 - **Styling:** Tailwind CSS + Shadcn/UI
 - **Inference:** Scaleway (via OpenAI SDK)
