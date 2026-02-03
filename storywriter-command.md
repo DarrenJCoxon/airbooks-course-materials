@@ -4,7 +4,7 @@ Do the following:
 
 1. Ask the user which story or sequence of stories to work on from the ToDo folder
 
-2. Call up the story implementer to complete the story named with the command 
+2. Call up the story implementer to complete the story or story sequence named by the user
 
 3. Once the story is completed, call up the story qa validator agent to validate the story implementer's work 
 
